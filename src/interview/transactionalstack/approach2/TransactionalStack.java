@@ -18,7 +18,6 @@ public class TransactionalStack<E> {
     }
 
     public E pop() {
-
         PopCommand<E> command = new PopCommand<>(elements);
         return transactionManager.execute(command);
     }

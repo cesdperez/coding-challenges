@@ -5,31 +5,24 @@ import java.util.Stack;
 public class TransactionalStack<E> {
 
     private final Stack<E> elements;
-    private final TransactionManager<E> transactionManager;
 
     public TransactionalStack() {
-        elements = new Stack<>();
-        transactionManager = new TransactionManager<>();
+        this.elements = new Stack<>();
     }
 
-    public E push(E element) {
-        Command<E> c = CommandBuilder.aCommand()
-                .onExecute(() -> elements.push(element))
-                .onRollback(() -> elements.pop())
-                .build();
-
-        return transactionManager.execute(c);
+    public TransactionalStack(Stack<E> elements) {
+        this.elements = elements;
     }
 
-    public void beginTransaction() {
-        transactionManager.begin();
+    public synchronized E push(E element) {
+        return elements.push(element);
     }
 
-    public void rollbackTransaction() {
-        transactionManager.rollback();
+    public synchronized E pop() {
+        return elements.pop();
     }
 
-    public void commitTransaction() {
-        transactionManager.commit();
+    public synchronized boolean executeTransaction(Transaction<E> transaction) {
+        return transaction.execute(elements);
     }
 }
