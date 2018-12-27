@@ -1,4 +1,4 @@
-package interview.transactionalstack3;
+package interview.transactionalstack.approach2;
 
 import java.util.Stack;
 

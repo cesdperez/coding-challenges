@@ -1,4 +1,4 @@
-package interview.transactionalstack2
+package interview.transactionalstack.approach2
 
 import spock.lang.Specification
 import spock.lang.Unroll

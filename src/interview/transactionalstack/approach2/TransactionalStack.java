@@ -1,4 +1,4 @@
-package interview.transactionalstack3;
+package interview.transactionalstack.approach2;
 
 import java.util.Stack;
 
@@ -13,13 +13,17 @@ public class TransactionalStack<E> {
     }
 
     public E push(E element) {
-        Command<E> c = CommandBuilder.aCommand()
-                .onExecute(() -> elements.push(element))
-                .onRollback(() -> elements.pop())
-                .build();
-
-        return transactionManager.execute(c);
+        PushCommand<E> command = new PushCommand<>(element, elements);
+        return transactionManager.execute(command);
     }
+
+    public E pop() {
+
+        PopCommand<E> command = new PopCommand<>(elements);
+        return transactionManager.execute(command);
+    }
+
+    //TODO rest of operations
 
     public void beginTransaction() {
         transactionManager.begin();

@@ -1,4 +1,4 @@
-package interview.transactionalstack;
+package interview.transactionalstack.approach2;
 
 import java.util.Stack;
 
@@ -22,12 +22,12 @@ public class TransactionManager<E> {
         transactions.pop().commit();
     }
 
-    public void execute(Command<E> command) {
+    public E execute(Command<E> command) {
         if (transactions.isEmpty()) {
-            command.execute();
+            return command.execute();
         } else {
             Transaction<E> currentTransaction = transactions.peek();
-            currentTransaction.execute(command);
+            return currentTransaction.execute(command);
         }
     }
 }
